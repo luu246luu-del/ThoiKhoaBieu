@@ -1,3 +1,6 @@
+> [!NOTE]
+> Đây là tài liệu kỹ thuật đi kèm. Mọi lệnh `npm` / `firebase` đều chạy tại **thư mục gốc repository `ThoiKhoaBieu/`** (nơi có `package.json`). Xem [README trang chủ](../README.md) nếu mới bắt đầu.
+
 # VanTien Study / StudyFlow Pro
 
 > Ứng dụng quản lý học tập và thời khóa biểu viết bằng **React + TypeScript + Vite**, tích hợp **Firebase Authentication, Cloud Firestore, Firebase Hosting** và một số tác vụ quản trị qua **Cloud Functions**.
@@ -95,7 +98,7 @@ flowchart LR
 ## 4. Cấu trúc thư mục
 
 ```text
-StudyFlow-Pro-Full/
+
 ├── src/
 │   ├── components/
 │   │   ├── layout/          # Bố cục, menu, bảo vệ route
@@ -144,12 +147,12 @@ git --version
 
 ### 5.2. Mở đúng thư mục
 
-Giải nén file ZIP sạch, mở thư mục **`StudyFlow-Pro-Full`**, tức thư mục có file `package.json`. Trong VS Code có thể chọn **File → Open Folder…**.
+Giải nén file ZIP sạch, mở thư mục **`ThoiKhoaBieu`**, tức thư mục có file `package.json`. Trong VS Code có thể chọn **File → Open Folder…**.
 
 Nếu Terminal đang ở `D:\WedTKB` và đã đặt thư mục dự án bên trong đó:
 
 ```powershell
-cd D:\WedTKB\StudyFlow-Pro-Full
+cd D:\WedTKB
 ```
 
 ### 5.3. Cài dependencies
@@ -393,7 +396,7 @@ Kiểm tra billing/quyền Functions, secret đã được tạo, owner UID, cus
 
 **Cách được khuyến nghị: dùng Git trong Terminal, không kéo 27.000 file lên giao diện web.**
 
-Mở **thư mục `StudyFlow-Pro-Full`** sau khi giải nén, rồi chạy:
+Mở **thư mục `ThoiKhoaBieu`** sau khi giải nén, rồi chạy:
 
 ```powershell
 git init
@@ -432,4 +435,4 @@ Sau khi push, truy cập:
 
 ---
 
-**Ghi chú:** README được xây dựng dựa trên cấu trúc và mã nguồn của file `StudyFlow-Pro-Full.zip` được cung cấp. Các phần cấu hình Firebase và GitHub là hướng dẫn thao tác; việc mã nguồn chạy thành công, triển khai thật và quyền truy cập GitHub phải được kiểm tra trên môi trường của chủ dự án.
+**Ghi chú:** README được xây dựng dựa trên cấu trúc và mã nguồn của file `ThoiKhoaBieu.zip` được cung cấp. Các phần cấu hình Firebase và GitHub là hướng dẫn thao tác; việc mã nguồn chạy thành công, triển khai thật và quyền truy cập GitHub phải được kiểm tra trên môi trường của chủ dự án.
