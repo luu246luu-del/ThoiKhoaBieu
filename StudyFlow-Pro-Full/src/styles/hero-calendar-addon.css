@@ -1,0 +1,46 @@
+/* VanTien Study v3.2: hình minh họa tĩnh và lịch 03:00–01:00, không dùng animation liên tục. */
+.vt-hero-showcase {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 42%);
+  align-items: center;
+  column-gap: clamp(1rem, 3vw, 3.5rem);
+  min-height: 224px;
+}
+.vt-hero-intro { max-width: 34rem; }
+.vt-hero-intro-label {
+  color: hsl(var(--primary));
+  font-size: .7rem;
+  letter-spacing: .13em;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.vt-hero-intro-title {
+  margin-top: .75rem;
+  font-size: clamp(1.25rem, 2.4vw, 1.95rem);
+  font-weight: 800;
+  letter-spacing: -.028em;
+  line-height: 1.25;
+  color: hsl(var(--foreground));
+}
+.vt-hero-intro-caption { margin-top: .6rem; color: hsl(var(--muted-foreground)); font-size: .9rem; }
+.vt-hero-art { display: block; width: 100%; max-width: 480px; height: auto; max-height: 235px; justify-self: end; object-fit: contain; border-radius: 16px; }
+.vt-hero-welcome { border-top: 1px solid hsl(var(--border) / .65); padding-top: 1.3rem; margin-top: .75rem; }
+.vt-study-day-note { color: hsl(var(--muted-foreground)); font-size: .75rem; line-height: 1.5; }
+@media (max-width: 767px) {
+  .vt-hero-showcase { grid-template-columns: minmax(0, 1fr); gap: .75rem; min-height: 0; }
+  .vt-hero-art { width: min(100%, 320px); max-height: 156px; justify-self: center; }
+  .vt-hero-intro-title { margin-top: .4rem; }
+  .vt-hero-welcome { margin-top: .8rem; }
+}
+@media (max-width: 480px) {
+  .vt-hero::after { display: none; }
+  .vt-hero > .absolute { display: none; }
+  .vt-hero-art { max-height: 130px; }
+  .vt-hero-showcase { gap: .4rem; }
+  .vt-hero-intro-label { font-size: .63rem; }
+  .vt-hero-intro-caption { font-size: .8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vt-hero-art, .vt-hero-showcase { animation: none !important; transition: none !important; }
+}

@@ -1,0 +1,398 @@
+@import 'tailwindcss';
+@import './fonts.css';
+
+/* ============================================
+   TAILWIND V4 THEME BINDINGS
+   ============================================ */
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-surface: hsl(var(--surface));
+  --color-surface-elevated: hsl(var(--surface-elevated));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-clock: 'Space Mono', 'JetBrains Mono', monospace;
+}
+
+/* ============================================
+   DESIGN TOKENS (CSS VARIABLES)
+   ============================================ */
+
+:root {
+  --radius: 0.75rem;
+
+  /* Light Theme */
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+
+  --surface: 210 20% 98%;
+  --surface-elevated: 0 0% 100%;
+
+  --primary: 245 86% 63%;
+  --primary-foreground: 0 0% 100%;
+
+  --accent: 162 62% 55%;
+  --accent-foreground: 162 62% 20%;
+
+  --destructive: 340 65% 65%;
+  --destructive-foreground: 0 0% 100%;
+
+  --warning: 38 90% 65%;
+  --warning-foreground: 38 90% 20%;
+
+  --success: 162 62% 55%;
+  --success-foreground: 0 0% 100%;
+
+  --muted: 210 20% 96%;
+  --muted-foreground: 215 16% 47%;
+
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 222 47% 11%;
+
+  --border: 214 20% 90%;
+  --input: 214 20% 90%;
+  --ring: 245 86% 63%;
+}
+
+.dark {
+  /* Dark Theme — StudyFlow Premium SaaS Palette */
+  --background: 228 44% 7%;      /* #0B0E17 */
+  --foreground: 210 40% 98%;     /* #F8FAFC */
+
+  --surface: 226 36% 12%;        /* #151A29 */
+  --surface-elevated: 224 32% 17%;/* #1D2435 */
+
+  --primary: 245 86% 63%;        /* #7367F0 */
+  --primary-foreground: 0 0% 100%;
+
+  --accent: 162 62% 55%;         /* #45D6B0 Mint */
+  --accent-foreground: 162 62% 95%;
+
+  --destructive: 340 65% 65%;
+  --destructive-foreground: 0 0% 100%;
+
+  --warning: 38 90% 65%;         /* #F6BC60 Amber */
+  --warning-foreground: 38 90% 10%;
+
+  --success: 162 62% 55%;
+  --success-foreground: 0 0% 100%;
+
+  --muted: 224 32% 17%;
+  --muted-foreground: 215 20% 65%; /* #9EA7BA */
+
+  --card: 226 36% 12%;
+  --card-foreground: 210 40% 98%;
+
+  --popover: 226 36% 14%;
+  --popover-foreground: 210 40% 98%;
+
+  --border: 224 25% 20%;
+  --input: 224 25% 20%;
+  --ring: 245 86% 63%;
+}
+
+/* ============================================
+   BASE ELEMENT DEFAULTS
+   ============================================ */
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+}
+
+/* Tabular numbers for precise timers and statistics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--border));
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--muted-foreground) / 0.4);
+}
+
+/* Safe area insets for iOS PWA */
+:root {
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+}
+
+.pb-safe {
+  padding-bottom: max(1rem, var(--safe-area-bottom));
+}
+
+.pt-safe {
+  padding-top: max(0px, var(--safe-area-top));
+}
+
+/* Gradient text */
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #7367F0, #45D6B0);
+}
+
+
+/* =========================================================
+   VANTIEN STUDY — VISUAL POLISH v2
+   Các hiệu ứng ở lớp giao diện; không thay đổi bố cục và dữ liệu.
+   Các vùng sáng đều là CSS, không cần ảnh lớn hay thư viện JS.
+   ========================================================= */
+
+:root {
+  --vt-motion-fast: 170ms;
+  --vt-motion-normal: 260ms;
+  --vt-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+/* Ánh sáng nền tinh tế; chặn pointer-events để không cản thao tác. */
+.vt-app-shell,
+.vt-auth-shell {
+  isolation: isolate;
+}
+
+.vt-app-main {
+  background-image:
+    radial-gradient(ellipse 55% 32% at 79% -4%, hsl(var(--primary) / .085), transparent 83%),
+    radial-gradient(ellipse 35% 22% at 4% 92%, hsl(var(--accent) / .045), transparent 86%);
+}
+
+.vt-auth-shell {
+  background-image:
+    radial-gradient(ellipse 48% 46% at 12% 8%, hsl(var(--primary) / .12), transparent 90%),
+    radial-gradient(ellipse 45% 40% at 96% 100%, hsl(var(--accent) / .10), transparent 90%);
+}
+
+.vt-auth-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: .24;
+  pointer-events: none;
+  background-image: radial-gradient(hsl(var(--foreground) / .24) .6px, transparent .6px);
+  background-size: 27px 27px;
+  mask-image: linear-gradient(to bottom, transparent, #000 40%, transparent);
+}
+
+.vt-auth-card {
+  box-shadow: 0 28px 90px -48px rgba(22, 26, 81, .6), inset 0 1px 0 hsl(var(--foreground) / .035);
+  border-color: hsl(var(--border) / .8);
+}
+
+.vt-logo {
+  filter: drop-shadow(0 8px 16px rgba(88, 79, 222, .23));
+  transition: transform var(--vt-motion-normal) var(--vt-ease), filter var(--vt-motion-normal) ease;
+}
+
+.vt-brand:hover .vt-logo { transform: translateY(-1px) rotate(-2deg) scale(1.035); filter: drop-shadow(0 10px 18px rgba(88,79,222,.28)); }
+
+.vt-sidebar {
+  background-image: linear-gradient(156deg, hsl(var(--surface)), hsl(var(--surface)) 73%, hsl(var(--primary) / .045));
+}
+
+.vt-nav-link {
+  transition: transform var(--vt-motion-fast) var(--vt-ease), background-color var(--vt-motion-fast) ease,
+              box-shadow var(--vt-motion-fast) ease, color var(--vt-motion-fast) ease;
+}
+
+.vt-nav-link:hover { transform: translateX(2px); }
+.vt-nav-link[aria-current='page'] {
+  box-shadow: inset 2px 0 0 hsl(var(--primary) / .85), inset 0 1px 0 hsl(var(--primary) / .08);
+  background-image: linear-gradient(90deg, hsl(var(--primary) / .12), hsl(var(--accent) / .035));
+}
+
+.vt-nav-link:focus-visible, .vt-focus-control:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 3px;
+}
+
+.vt-hero {
+  position: relative;
+  isolation: isolate;
+  background-image:
+    radial-gradient(ellipse 40% 100% at 100% 0%, hsl(var(--primary) / .15), transparent),
+    linear-gradient(115deg, hsl(var(--surface-elevated)), hsl(var(--surface)) 78%);
+  box-shadow: 0 18px 55px -43px rgba(77, 78, 205, .65), inset 0 1px 0 hsl(var(--foreground) / .055);
+}
+
+.vt-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: .42;
+  background-image: radial-gradient(circle, hsl(var(--accent) / .28) 1px, transparent 1px);
+  background-size: 22px 22px;
+  mask-image: linear-gradient(90deg, transparent 55%, #000 100%);
+}
+
+.vt-hero > * { position: relative; z-index: 1; }
+
+.vt-stat-card {
+  box-shadow: inset 0 1px 0 hsl(var(--foreground) / .04), 0 8px 28px -24px rgba(10, 12, 35, .5);
+}
+
+.vt-stat-card:hover {
+  border-color: hsl(var(--primary) / .25);
+  box-shadow: inset 0 1px 0 hsl(var(--foreground) / .07), 0 18px 40px -26px rgba(86, 79, 223, .35);
+}
+
+.vt-button {
+  transition: transform var(--vt-motion-fast) var(--vt-ease), box-shadow var(--vt-motion-fast) ease,
+              background-color var(--vt-motion-fast) ease, border-color var(--vt-motion-fast) ease;
+}
+.vt-button:hover:not(:disabled) { transform: translateY(-1px); }
+.vt-button:active:not(:disabled) { transform: translateY(0) scale(.985); }
+
+.vt-focus-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-image:
+    radial-gradient(ellipse 66% 78% at 50% 16%, rgba(104,95,231,.21), transparent 78%),
+    radial-gradient(ellipse 50% 55% at 96% 100%, rgba(50,206,187,.10), transparent 88%),
+    linear-gradient(135deg, #12172A, #101526 68%, #101A2A);
+  box-shadow: 0 26px 65px -46px rgba(69, 65, 190, .75), inset 0 1px 0 rgba(255,255,255,.07);
+}
+
+.vt-focus-panel::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: min(78vw, 610px);
+  height: min(78vw, 610px);
+  left: 50%; top: 53%; transform: translate(-50%,-50%);
+  border-radius: 50%;
+  border: 1px solid rgba(165, 166, 248, .08);
+  box-shadow: 0 0 0 36px rgba(126,116,255,.018), 0 0 0 78px rgba(126,116,255,.01);
+  pointer-events: none;
+}
+
+.vt-mode-tab { transition: background-color var(--vt-motion-fast) ease, transform var(--vt-motion-fast) var(--vt-ease), box-shadow var(--vt-motion-fast) ease; }
+.vt-mode-tab:hover:not(:disabled) { transform: translateY(-1px); background-color: rgba(255,255,255,.16); }
+.vt-mode-tab[aria-pressed='true'] {
+  background: linear-gradient(115deg, #7368F3, #585BE4);
+  box-shadow: 0 8px 24px -12px rgba(110, 102, 240, .8), inset 0 1px 0 rgba(255,255,255,.2);
+  color: white;
+}
+
+.vt-status-dot {
+  width: 7px; height: 7px; display: inline-block; border-radius: 50%;
+  background: #6DE5C9; box-shadow: 0 0 0 4px rgba(109,229,201,.09);
+  margin-right: .55rem; vertical-align: middle;
+}
+
+.vt-focus-display {
+  color: #F8FAFF;
+  text-shadow: 0 5px 30px rgba(124,125,253,.16);
+  letter-spacing: -.055em;
+}
+
+.vt-focus-progress {
+  position: relative;
+  height: 6px;
+  overflow: hidden;
+  background: rgba(160,170,217,.13);
+  border: 1px solid rgba(255,255,255,.055);
+  border-radius: 9999px;
+}
+.vt-focus-progress > div {
+  height: 100%;
+  background: linear-gradient(90deg, #877BFF, #71DBD0);
+  box-shadow: 0 0 16px rgba(116, 122, 250, .4);
+  transition: width 450ms linear;
+  border-radius: inherit;
+}
+
+.vt-focus-primary {
+  background-image: linear-gradient(115deg,#746AF3,#625AF0);
+  box-shadow: 0 8px 24px -11px rgba(121,111,255,.7), inset 0 1px 0 rgba(255,255,255,.19);
+}
+.vt-focus-primary:hover:not(:disabled) { background-image: linear-gradient(115deg,#8279FF,#6A64F5); transform: translateY(-2px); }
+.vt-focus-secondary:hover:not(:disabled) { background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.32); }
+.vt-focus-control {
+  transition: background var(--vt-motion-fast) ease, border-color var(--vt-motion-fast) ease,
+              transform var(--vt-motion-fast) var(--vt-ease), box-shadow var(--vt-motion-fast) ease;
+}
+.vt-focus-control:active:not(:disabled) { transform: scale(.975); }
+
+.vt-mobile-nav { box-shadow: 0 -10px 35px -30px rgba(50,43,130,.4); }
+.vt-mobile-link { transition: color var(--vt-motion-fast) ease, transform var(--vt-motion-fast) var(--vt-ease); }
+.vt-mobile-link[aria-current='page'] { color: hsl(var(--primary)); transform: translateY(-2px); }
+
+@media (max-width: 480px) {
+  .vt-focus-panel::before { width: 92vw; height: 92vw; }
+  .vt-focus-display { letter-spacing: -.07em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vt-logo, .vt-nav-link, .vt-button, .vt-mode-tab, .vt-focus-control,
+  .vt-mobile-link, .vt-focus-progress > div { transition: none !important; animation: none !important; }
+  .vt-brand:hover .vt-logo, .vt-nav-link:hover, .vt-button:hover:not(:disabled),
+  .vt-mobile-link[aria-current='page'] { transform: none !important; }
+}

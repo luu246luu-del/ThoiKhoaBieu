@@ -1,0 +1,136 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function owner(uid) { return signedIn() && request.auth.uid == uid; }
+    function adminReader() { return signedIn() && request.auth.token.admin == true && request.auth.token.owner == true; }
+    function usernameOk(name) { return name is string && name.matches('^[a-z0-9_.]{3,30}$'); }
+    function textOk(value,maxChars) { return value is string && value.size() > 0 && value.size() <= maxChars; }
+    function taskOk(id) {
+      return request.resource.data.keys().hasAll(['id','title','categoryId','status','priority','createdAt','updatedAt'])
+        && request.resource.data.id == id
+        && textOk(request.resource.data.title,250)
+        && textOk(request.resource.data.categoryId,64)
+        && request.resource.data.priority in ['urgent','high','medium','low']
+        && request.resource.data.status in ['inbox','planned','in_progress','completed','postponed','archived']
+        && request.resource.data.scheduledSessions is list
+        && request.resource.data.scheduledSessions.size() <= 120
+        && request.resource.data.subtasks is list
+        && request.resource.data.subtasks.size() <= 250
+        && request.resource.data.rescheduleHistory is list
+        && request.resource.data.rescheduleHistory.size() <= 500
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp;
+    }
+    function calendarOk(id) {
+      return request.resource.data.keys().hasAll(['id','title','categoryId','startTime','endTime','status','createdAt','updatedAt'])
+        && request.resource.data.id == id
+        && textOk(request.resource.data.title,250)
+        && textOk(request.resource.data.categoryId,64)
+        && request.resource.data.startTime is timestamp
+        && request.resource.data.endTime is timestamp
+        && request.resource.data.startTime < request.resource.data.endTime
+        && request.resource.data.status in ['scheduled','completed','cancelled','rescheduled']
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp;
+    }
+    function focusOk(id) {
+      return request.resource.data.keys().hasAll(['id','categoryId','mode','startedAt','actualFocusMs','status','createdAt'])
+        && request.resource.data.id == id
+        && request.resource.data.categoryId is string
+        && request.resource.data.startedAt is timestamp
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.actualFocusMs is number
+        && request.resource.data.actualFocusMs >= 0
+        && request.resource.data.actualFocusMs <= 86400000
+        && request.resource.data.totalPausedMs is number
+        && request.resource.data.totalPausedMs >= 0
+        && request.resource.data.status in ['active','paused','completed','abandoned']
+        && request.resource.data.mode in ['countdown','stopwatch','pomodoro','deep_focus','clock'];
+    }
+    match /usernames/{username} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if signedIn() && usernameOk(username) && username != 'admin'
+        && request.resource.data.keys().hasOnly(['uid','createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && !exists(/databases/$(database)/documents/usernames/$(username));
+      allow update: if false;
+      allow delete: if signedIn() && resource.data.uid == request.auth.uid;
+    }
+    match /users/{uid} {
+      allow get: if owner(uid) || adminReader();
+      allow list: if adminReader();
+      allow create: if owner(uid)
+        && request.resource.data.uid == uid
+        && usernameOk(request.resource.data.username)
+        && textOk(request.resource.data.displayName,100);
+      allow update: if owner(uid) && request.resource.data.uid == uid
+        && request.resource.data.username == resource.data.username;
+      allow delete: if owner(uid);
+
+      match /tasks/{id} {
+        allow read: if owner(uid) || adminReader(); allow delete: if owner(uid);
+        allow create,update: if owner(uid) && taskOk(id);
+      }
+      match /calendarEvents/{id} {
+        allow read: if owner(uid) || adminReader(); allow delete: if owner(uid);
+        allow create,update: if owner(uid) && calendarOk(id);
+      }
+      match /focusSessions/{id} {
+        allow read: if owner(uid) || adminReader(); allow delete: if owner(uid);
+        allow create: if owner(uid) && focusOk(id);
+        // Immutable completed focus records ensure simple idempotent counters.
+        allow update: if false;
+      }
+      match /habits/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /habitLogs/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /dailyReviews/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /projects/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /goals/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /learningModules/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /lessons/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /recurringRules/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /reminders/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+      match /notificationDevices/{id} { allow read: if owner(uid) || adminReader(); allow write: if owner(uid); }
+    }
+    // Danh gia website: cong khai sau khi Owner duyet, moi UID mot bai.
+    match /siteFeedback/{uid} {
+      function validReview() {
+        return request.resource.data.keys().hasOnly(['uid','authorName','rating','message','status','createdAt','updatedAt'])
+          && request.resource.data.keys().hasAll(['uid','authorName','rating','message','status','createdAt','updatedAt'])
+          && request.resource.data.uid == uid
+          && request.resource.data.authorName is string
+          && request.resource.data.authorName.size() >= 2
+          && request.resource.data.authorName.size() <= 80
+          && request.resource.data.message is string
+          && request.resource.data.message.size() >= 10
+          && request.resource.data.message.size() <= 800
+          && request.resource.data.rating is int
+          && request.resource.data.rating >= 1
+          && request.resource.data.rating <= 5
+          && request.resource.data.createdAt is timestamp
+          && request.resource.data.updatedAt is timestamp;
+      }
+      allow get: if adminReader() || owner(uid) || resource.data.status == 'approved';
+      allow list: if adminReader() || resource.data.status == 'approved';
+      allow create: if owner(uid) && validReview()
+        && request.resource.data.status == 'pending';
+      allow update: if (
+        owner(uid) && resource.data.uid == uid
+          && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['authorName','rating','message','status','updatedAt'])
+          && request.resource.data.status == 'pending'
+          && validReview()
+      ) || (
+        adminReader()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','updatedAt'])
+          && request.resource.data.status in ['approved','hidden']
+          && validReview()
+      );
+      allow delete: if adminReader();
+    }
+
+    match /{document=**} { allow read,write: if false; }
+  }
+}

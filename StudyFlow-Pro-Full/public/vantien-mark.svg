@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none" role="img" aria-label="VanTien Study">
+  <defs>
+    <linearGradient id="surface" x1="8" y1="8" x2="117" y2="122" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#847CFF"/><stop offset=".48" stop-color="#5B54DB"/><stop offset="1" stop-color="#24C7C1"/>
+    </linearGradient>
+    <linearGradient id="v" x1="29" y1="27" x2="92" y2="103" gradientUnits="userSpaceOnUse"><stop stop-color="#FFFFFF"/><stop offset="1" stop-color="#DCEFFF"/></linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="translate(108 5) rotate(128) scale(116)"><stop stop-color="#FFFFFF" stop-opacity=".29"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></radialGradient>
+    <filter id="shadow" x="0" y="-3" width="128" height="141" filterUnits="userSpaceOnUse"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-color="#060E2C" flood-opacity=".24"/></filter>
+  </defs>
+  <g filter="url(#shadow)"><rect x="5" y="5" width="118" height="118" rx="31" fill="url(#surface)"/></g>
+  <rect x="5.75" y="5.75" width="116.5" height="116.5" rx="30.25" stroke="white" stroke-opacity=".26" stroke-width="1.5"/>
+  <rect x="5" y="5" width="118" height="118" rx="31" fill="url(#glow)"/>
+  <path d="M27 35L49 89C51 94 55 97 61 97C67 97 71 94 73 89L94 35" stroke="url(#v)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M81 55L96 41L106 54" stroke="#9FFFF0" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M101 23L104 29L110 32L104 35L101 41L98 35L92 32L98 29L101 23Z" fill="#D7FFF5"/>
+  <circle cx="28" cy="98" r="4" fill="#9FFFF0" fill-opacity=".9"/>
+</svg>

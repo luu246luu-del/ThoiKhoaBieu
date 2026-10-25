@@ -1,0 +1,39 @@
+# Dependencies and build
+node_modules/
+**/node_modules/
+dist/
+build/
+coverage/
+.vite/
+
+# Secrets, local Firebase and private runtime config
+.env
+.env.*
+!.env.example
+.firebaserc
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+*.log
+*service-account*.json
+*serviceAccount*.json
+*credentials*.json
+*.pem
+*.p12
+*.key
+
+# Local backups / dumps / archives
+.vantien-*/
+*.backup
+*.zip
+*.7z
+*.rar
+*.sqlite
+*.db
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
